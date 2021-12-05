@@ -1,4 +1,9 @@
 # buildspace Solana NFT Drop Project
+
+### APP LINK
+Link to the deployed App in case you want to try it!
+https://solana-nft-drop-starter-project-310r3dgeg-jmariadlcs.vercel.app/
+
 ### Welcome 👋
 To get started with this course, clone this repo and follow these commands:
 
