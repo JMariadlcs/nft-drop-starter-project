@@ -28,6 +28,10 @@ const CandyMachine = ({ walletAddress }) => {
   //State
   const[machineStats, setMachineStats] = useState(null);
   const [mints, setMints] = useState([]);
+  //Loading indicators when NFT is minted and loading Minteds
+  const [isMinting, setIsMinting] = useState(false);
+  const [isLoadingMints, setIsLoadingMints] = useState(false);
+
   // Actions
   const fetchHashTable = async (hash, metadataEnabled) => {
     const connection = new web3.Connection(
@@ -112,6 +116,7 @@ const CandyMachine = ({ walletAddress }) => {
 
   const mintToken = async () => {
     try {
+      setIsMinting(true);
       const mint = web3.Keypair.generate();
       const token = await getTokenWallet(
         walletAddress.publicKey,
@@ -196,6 +201,8 @@ const CandyMachine = ({ walletAddress }) => {
             const { result } = notification;
             if (!result.err) {
               console.log('NFT Minted!');
+              setIsMinting(false);
+              await getCandyMachineState();
             }
           }
         },
@@ -203,6 +210,8 @@ const CandyMachine = ({ walletAddress }) => {
       );
     } catch (error) {
       let message = error.msg || 'Minting failed! Please try again!';
+
+      setIsMinting(false);
 
       if (!error.msg) {
         if (error.message.indexOf('0x138')) {
@@ -319,6 +328,7 @@ const getCandyMachineState = async () => {
     goLiveDateTimeString,
   });
 
+  setIsLoadingMints(true);
   //fetchHashTable: "Get all the accounts that have a minted NFT on this program and return the Token URI's which point to our metadata for that NFT"
   const data = await fetchHashTable(
     process.env.REACT_APP_CANDY_MACHINE_ID,
@@ -338,6 +348,7 @@ const getCandyMachineState = async () => {
       }
     }
   }
+  setIsLoadingMints(false);
 };
 
 //Rendered minted items
@@ -359,10 +370,15 @@ return (
     <div className="machine-container">
       <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>
       <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
-      <button className="cta-button mint-button" onClick={mintToken}>
-          Mint NFT
+      <button
+        className="cta-button mint-button"
+        onClick={mintToken}
+        // Add this disabled state and have it listen to isMinting
+        disabled={isMinting}
+      >
+        Mint NFT
       </button>
-      {/* If we have mints available in our array, let's render some items */}
+      {isLoadingMints && <p>LOADING MINTS...</p>}
       {mints.length > 0 && renderMintedItems()}
     </div>
   )
