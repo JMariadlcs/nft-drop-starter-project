@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import twitterLogo from './assets/twitter-logo.svg';
+//Import of our CandyMachine generated
+import CandyMachine from './CandyMachine';
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -8,7 +10,7 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
   //States declarations
-  const [walletAdress, setWalletAddress] = useState(null);
+  const [walletAddress, setWalletAddress] = useState(null);
 
   //Actions
   //Check if user has connected wallet
@@ -67,6 +69,7 @@ const App = () => {
     window.addEventListener('load', onLoad);
     return () => window.removeEventListener('load', onLoad);
   }, []);
+  
 
   return (
     <div className="App">
@@ -75,8 +78,10 @@ const App = () => {
           <p className="header">🍭 Candy Drop</p>
           <p className="sub-text">NFT drop machine with fair mint</p>
           {/*Render to connect to wallet button here*/}
-          {!walletAdress && renderNotConnectedContainer()}
+          {!walletAddress && renderNotConnectedContainer()}
         </div>
+         {/* Check for walletAddress and then pass in walletAddress */}
+      {walletAddress && <CandyMachine walletAddress={window.solana} />}
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a

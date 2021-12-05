@@ -1,0 +1,19 @@
+{
+    "name": "Nobita",
+    "symbol": "",
+    "image": "1.png",
+    "properties": {
+      "files": [
+        {
+          "uri": "1.png",
+          "type": "image/png"
+        }
+      ],
+      "creators": [
+        {
+          "address": "8tgp2YM6YErXpPucd283oaHuSeL8G2v7oBqYEzraJSEY",
+          "share": 100
+        }
+      ]
+    }
+  }

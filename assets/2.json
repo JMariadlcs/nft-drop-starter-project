@@ -1,0 +1,19 @@
+{
+    "name": "Shizuka",
+    "symbol": "",
+    "image": "2.png",
+    "properties": {
+      "files": [
+        {
+          "uri": "2.png",
+          "type": "image/png"
+        }
+      ],
+      "creators": [
+        {
+          "address": "8tgp2YM6YErXpPucd283oaHuSeL8G2v7oBqYEzraJSEY",
+          "share": 100
+        }
+      ]
+    }
+  }
