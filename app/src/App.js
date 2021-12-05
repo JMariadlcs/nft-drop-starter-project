@@ -23,6 +23,9 @@ const App = () => {
           //Solana gives access to selected website to use user's wallet
           const response = await solana.connect({ onlyIfTrusted: true});
           console.log('Connected with Public Key:', response.publicKey.toString());
+
+          //Store users public adress (we are using it later)
+          setWalletAddress(response.publicKey.toString());
         }
       }else{
         alert('Solana object is not found. Get Phantom Wallet!');
@@ -33,7 +36,15 @@ const App = () => {
   };
 
   //Method to generate connect user Wallet button
-  const connectWallet = async () =>{};
+  const connectWallet = async () =>{
+    const { solana } = window;
+
+    if(solana){
+      const response = await solana.connect();
+      console.log('Connected with Public Key:', response.publicKey.toString());
+      setWalletAddress(response.publicKey.toString());
+    }
+  };
 
     //We want to show the button only when the user has not connected his wallet to the app yet
   const renderNotConnectedContainer = () => (
@@ -45,8 +56,6 @@ const App = () => {
       </button>
   );
   
-    
-
 
   //Method executed each time page is load
   //Check if wallet is connected (called to method)
@@ -66,7 +75,7 @@ const App = () => {
           <p className="header">🍭 Candy Drop</p>
           <p className="sub-text">NFT drop machine with fair mint</p>
           {/*Render to connect to wallet button here*/}
-          {renderNotConnectedContainer()}
+          {!walletAdress && renderNotConnectedContainer()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
